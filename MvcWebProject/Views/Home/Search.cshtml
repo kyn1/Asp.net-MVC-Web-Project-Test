@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MvcWebProject.Models.Entity>
+
+<h2>Record Search</h2>
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Get, new { id = "searchForm" }))
+{
+    <div class="form-group">
+        @Html.Label("Name")
+        @Html.TextBox("name", null, new { @class = "form-control", required = "required" })
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    if (TempData["SuccesMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccesMessage"]
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <h3>Search Results:</h3>
+    <ul>
+        @foreach (var person in Model)
+        {
+            <li>@person.Name - @person.Surname (Age: @person.Age)</li>
+        }
+    </ul>
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').validate({
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element);
+                },
+                rules: {
+                    name: {
+                        required: true
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "Please enter a name."
+                    }
+                },
+                highlight: function (element) {
+                    $(element).addClass('is-invalid').removeClass('is-valid');
+                },
+                unhighlight: function (element) {
+                    $(element).addClass('is-valid').removeClass('is-invalid');
+                }
+            });
+        });
+    </script>
+}

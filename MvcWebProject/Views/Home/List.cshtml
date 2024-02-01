@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MvcWebProject.Models.Entity>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Add Persons", "Add")
+</p>
+<table class="table">
+    <tr>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+    </tr>
+    </tr>
+
+    @foreach (var entity in Model)
+    {
+        <tr>
+            <td>@entity.Name</td>
+            <td>@entity.Surname</td>
+            <td>@entity.Age</td>
+        </tr>
+    }
+
+</table>
