@@ -14,6 +14,7 @@ namespace MvcWebProject.Models
         /// Gets or sets the name of the entity to be deleted.
         /// </summary>
         public string Name { get; set; }
+        public int personId { get; internal set; }
     }
 
 

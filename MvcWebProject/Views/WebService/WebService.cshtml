@@ -1,0 +1,17 @@
+﻿@model MvcWebProject.Models.Entity
+@{
+    ViewBag.Title = "Web Service";
+}
+
+<h2>Web Service</h2>
+
+<ul>
+    <li>@Html.ActionLink("Record Add", "Add", "WebService")</li>
+    @*<li>@Html.ActionLink("Record Delete", "Delete", "WebService")</li>*@
+    <li>@Html.ActionLink("Record List", "List", "WebService")</li>
+    <li>@Html.ActionLink("Record Search", "Search", "WebService")</li>
+</ul>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

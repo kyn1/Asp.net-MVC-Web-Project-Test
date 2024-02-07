@@ -27,20 +27,15 @@ namespace MvcWebProject.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Displays a view for web service operations.
-        /// </summary>
-        public ActionResult WebService()
-        {
-            return View();
-        }
+        
 
         /// <summary>
         /// Displays a form for adding a new entity.
         /// </summary>
         public ActionResult Add()
         {
-            return View();
+            var model = new Entity();
+            return View(model);
         }
 
         /// <summary>
@@ -48,7 +43,7 @@ namespace MvcWebProject.Controllers
         /// </summary>
         /// <param name="model">The view model containing data for the new entity.</param>
         [HttpPost]
-        public ActionResult Add(EntityViewModel model)
+        public ActionResult Add(Entity model)
         {
             if (ModelState.IsValid)
             {
@@ -81,17 +76,45 @@ namespace MvcWebProject.Controllers
         /// <summary>
         /// Displays a view for deleting an entity.
         /// </summary>
-        public ActionResult Delete()
+        public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var model = new Entity
+                {
+                    Id = id
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An error occurred while processing your request.";
+                return View("Error");
+            }
         }
 
         /// <summary>
         /// Handles the deletion of an entity.
         /// </summary>
-        /// <param name="model">The view model containing the name of the entity to be deleted.</param>
-        [HttpPost]
-        public ActionResult Delete(DeleteViewModel model)
+        /// <param name="Id">The view model containing the id of the entity to be deleted.</param>
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var entityToDelete = db.Entities.FirstOrDefault(e => e.Id == id);
+            if (entityToDelete != null)
+            {
+                db.Entities.Remove(entityToDelete);
+                db.SaveChanges();
+                TempData["SuccMessage"] = "Record deleted successfully.";
+            }
+            else
+            {
+                TempData["ErroMessage"] = "Record not found.";
+            }
+            return RedirectToAction("List", "Home");
+        }
+        /*public ActionResult Delete(DeleteViewModel model)
         {
             var entityToDelete = db.Entities.FirstOrDefault(e => e.Name == model.Name);
             if (entityToDelete != null)
@@ -105,7 +128,7 @@ namespace MvcWebProject.Controllers
                 TempData["ErroMessage"] = "Record not found.";
             }
             return RedirectToAction("Delete");
-        }
+        }*/
 
         /// <summary>
         /// Displays a list of entities.

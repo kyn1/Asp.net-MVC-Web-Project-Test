@@ -10,6 +10,7 @@ namespace MvcWebProject.Models
     /// </summary>
     public class EntityViewModel
     {
+        public int Id { get; set; }
         /// <summary>
         /// Gets or sets the name of the entity.
         /// </summary>
